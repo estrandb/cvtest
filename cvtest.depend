@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1449641727 source:/home/pi/projects/cvtest/src/opencv_test.cpp
+	"opencv2/imgproc/imgproc.hpp"
+	"opencv2/core/core.hpp"
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/objdetect/objdetect.hpp"
+	"opencv2/features2d/features2d.hpp"
+	<iostream>
+	<boost/thread.hpp>
+	<stdio.h>
+	<string>
+	<vector>
+

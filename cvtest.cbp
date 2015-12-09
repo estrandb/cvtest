@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="cvtest" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/cvtest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="/home/pi/builds/opencv/release/lib/libopencv_imgproc.so" />
+					<Add library="/home/pi/builds/opencv/release/lib/libopencv_core.so" />
+					<Add library="/home/pi/builds/opencv/release/lib/libopencv_highgui.so" />
+					<Add library="/home/pi/builds/opencv/release/lib/libopencv_videoio.so" />
+					<Add library="/home/pi/builds/opencv/release/lib/libopencv_objdetect.so" />
+					<Add library="/home/pi/builds/opencv/release/lib/libopencv_features2d.so" />
+					<Add library="/usr/lib/uv4l/uv4lext/armv6l/libuv4lext.so" />
+					<Add library="/usr/lib/arm-linux-gnueabihf/libboost_system.so" />
+					<Add library="/usr/lib/arm-linux-gnueabihf/libboost_thread.so" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/cvtest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="/home/pi/builds/opencv/release/lib/libopencv_core.so" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="classifiers/haarcascade_frontalface_alt2.xml" />
+		<Unit filename="classifiers/haarcascade_profileface.xml" />
+		<Unit filename="src/opencv_test.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
