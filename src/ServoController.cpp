@@ -14,6 +14,12 @@
 
 int uart0_filestream = -1;
 
+unsigned char tx_pan_buffer[20];
+unsigned char *p_tx_pan_buffer;
+
+unsigned char tx_tilt_buffer[20];
+unsigned char *p_tx_tilt_buffer;
+
 ServoController::ServoController()
 {
     //-------------------------
@@ -59,18 +65,32 @@ ServoController::ServoController()
 	options.c_lflag = 0;
 	tcflush(uart0_filestream, TCIFLUSH);
 	tcsetattr(uart0_filestream, TCSANOW, &options);
+
+    p_tx_pan_buffer = &tx_pan_buffer[0];
+	*p_tx_pan_buffer++ = 255;
+	*p_tx_pan_buffer++ = 19;
+
+    p_tx_tilt_buffer = &tx_tilt_buffer[0];
+	*p_tx_tilt_buffer++ = 255;
+	*p_tx_tilt_buffer++ = 18;
 }
 
 void ServoController::MovePanServo(int position)
 {
-    //----- TX BYTES -----
-	unsigned char tx_pan_buffer[20];
-	unsigned char *p_tx_pan_buffer;
+    //position is 0-200. left is negative, right is positive
+    //check for physical limits
+    if (position < PAN_LIMIT_LEFT)
+    {
+        position = PAN_LIMIT_LEFT;
+    }
+    if (position > PAN_LIMIT_RIGHT)
+    {
+        position = PAN_LIMIT_RIGHT;
+    }
 
-	p_tx_pan_buffer = &tx_pan_buffer[0];
-	*p_tx_pan_buffer++ = 255;
-	*p_tx_pan_buffer++ = 19;
-	*p_tx_pan_buffer++ = PAN_LIMIT_RIGHT;
+    //----- TX BYTES -----
+	p_tx_pan_buffer = &tx_pan_buffer[2];
+	*p_tx_pan_buffer++ = position;
 
 	if (uart0_filestream != -1)
 	{
@@ -85,14 +105,20 @@ void ServoController::MovePanServo(int position)
 
 void ServoController::MoveTiltServo(int position)
 {
-    //----- TX BYTES -----
-	unsigned char tx_tilt_buffer[20];
-	unsigned char *p_tx_tilt_buffer;
+    //up is positive, down is negative
+    //check for physical limits
+    if (position < TILT_LIMIT_DOWN)
+    {
+        position = TILT_LIMIT_DOWN;
+    }
+    if (position > TILT_LIMIT_UP)
+    {
+        position = TILT_LIMIT_UP;
+    }
 
-	p_tx_tilt_buffer = &tx_tilt_buffer[0];
-	*p_tx_tilt_buffer++ = 255;
-	*p_tx_tilt_buffer++ = 18;
-	*p_tx_tilt_buffer++ = TILT_LIMIT_UP;
+    //----- TX BYTES -----
+	p_tx_tilt_buffer = &tx_tilt_buffer[2];
+	*p_tx_tilt_buffer++ = position;
 
 	if (uart0_filestream != -1)
 	{
@@ -102,5 +128,6 @@ void ServoController::MoveTiltServo(int position)
 			printf("UART TX error\n");
 		}
 	}
-
 }
+
+

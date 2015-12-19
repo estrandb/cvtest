@@ -21,3 +21,23 @@
 
 1450540154 /home/pi/projects/cvtest/include/ServoController.h
 
+1450541318 source:/home/pi/projects/git/cvtest/src/opencv_test.cpp
+	"opencv2/imgproc/imgproc.hpp"
+	"opencv2/core/core.hpp"
+	"opencv2/highgui/highgui.hpp"
+	"opencv2/objdetect/objdetect.hpp"
+	"opencv2/features2d/features2d.hpp"
+	<iostream>
+	<boost/thread.hpp>
+	<stdio.h>
+	"ServoController.h"
+	<string>
+	<vector>
+
+1450546359 source:/home/pi/projects/git/cvtest/src/ServoController.cpp
+	"ServoController.h"
+	<unistd.h>
+	<fcntl.h>
+	<termios.h>
+	<stdio.h>
+

@@ -47,13 +47,14 @@ int main(int argc, char** argv){
     namedWindow("Output",CV_WINDOW_AUTOSIZE);
 
     ServoController* servoController = new ServoController();
-    servoController->MovePanServo(0);
-    servoController->MoveTiltServo(0);
+    servoController->MovePanServo(80);
+    servoController->MoveTiltServo(120);
 
     while(1)
     {
 
         Mat frame;
+
         bool bSuccess = cap.read(frame);
         if (bSuccess)
         {
@@ -62,13 +63,23 @@ int main(int argc, char** argv){
                 frontalface.detectMultiScale(frame,faces,1.2,2,0|CV_HAAR_SCALE_IMAGE, Size(min_face_size,min_face_size), Size(max_face_size,max_face_size));
                 for (unsigned int i = 0 ; i < faces.size(); ++i)
                 {
-                    Rect face = faces[i];
+                    Rect face = faces[0];
                     min_face_size = faces[0].width*0.8;
                     max_face_size = faces[0].width*1.2;
-                    rectangle(frame,Point(face.x, face.y),Point(face.x+face.width, face.y+face.height),Scalar(255,0,0),1,4);
+                    rectangle(frame,Point(face.x, face.y),Point(face.x+face.width/2, face.y+face.height/2),Scalar(255,0,0),1,4);
+                    cv::Point2f faceCenter(face.x + face.width/2, face.y + face.height/2);
+
+
+
+
+
                 }
                 counter = 0;
             }
+            cv::Size frameSize = frame.size();
+            cv::Point2f frameCenter(frameSize.width/2, frameSize.height/2);
+            rectangle(frame,Point(frameCenter.x,frameCenter.y), Point(frameCenter.x + 1, frameCenter.y +1),Scalar(255,0,0),1,4);
+
             if (faces.empty())
             {
                 min_face_size = 30;
