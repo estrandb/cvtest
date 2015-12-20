@@ -1,3 +1,5 @@
+//**** Written by Eddie Strandberg ****//
+
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
@@ -14,20 +16,17 @@
 
 using namespace cv;
 
-int GatherFrames(VideoCapture& cap);
-int DetectFaceAndDrawRect();
-int DrawFrame();
+#define FRAME_WIDTH 320
+#define FRAME_HEIGHT 240
 
+int difference[2];
 
-
-std::vector<Rect_<int> > faces;
+std::vector<Rect> faces;
+//std::vector<Rect_<int> > faces;
 double min_face_size=30;
 double max_face_size=70;
 
 int counter = 0;
-
-std::list<Mat> framesIn;
-std::list<Mat> framesOut;
 
 int main(int argc, char** argv){
 
@@ -38,17 +37,18 @@ int main(int argc, char** argv){
         return -1;
     }
 
-    cap.set(CV_CAP_PROP_FRAME_WIDTH, 320);
-    cap.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
     cap.set(CV_CAP_PROP_FPS, 30);
+    cv::Point2f frameCenter(FRAME_WIDTH/2, FRAME_HEIGHT/2);
     CascadeClassifier frontalface = CascadeClassifier("/home/pi/projects/cvtest/classifiers/haarcascade_frontalface_alt2.xml");
-    //CascadeClassifier frontalface = CascadeClassifier("/home/pi/projects/cvtest/classifiers/haarcascade_profileface.xml");
+    //CascadeClassifier profileface = CascadeClassifier("/home/pi/projects/cvtest/classifiers/haarcascade_profileface.xml");
 
-    namedWindow("Output",CV_WINDOW_AUTOSIZE);
+    //namedWindow("Output",CV_WINDOW_AUTOSIZE);
 
     ServoController* servoController = new ServoController();
-    servoController->MovePanServo(80);
-    servoController->MoveTiltServo(120);
+    servoController->MovePanServoTo(100);
+    servoController->MoveTiltServoTo(120);
 
     while(1)
     {
@@ -61,24 +61,24 @@ int main(int argc, char** argv){
             if (counter % 2 == 0)
             {
                 frontalface.detectMultiScale(frame,faces,1.2,2,0|CV_HAAR_SCALE_IMAGE, Size(min_face_size,min_face_size), Size(max_face_size,max_face_size));
-                for (unsigned int i = 0 ; i < faces.size(); ++i)
+
+                if (!faces.empty())
                 {
                     Rect face = faces[0];
-                    min_face_size = faces[0].width*0.8;
-                    max_face_size = faces[0].width*1.2;
-                    rectangle(frame,Point(face.x, face.y),Point(face.x+face.width/2, face.y+face.height/2),Scalar(255,0,0),1,4);
+                    min_face_size = face.width*0.8;
+                    max_face_size = face.width*1.2;
+                    //rectangle(frame,Point(face.x, face.y),Point(face.x+face.width/2, face.y+face.height/2),Scalar(255,0,0),1,4);
                     cv::Point2f faceCenter(face.x + face.width/2, face.y + face.height/2);
-
-
-
-
+                    difference[0] = (face.x+face.width/2) - frameCenter.x;
+                    difference[1] = (face.y+face.height/2) - frameCenter.y;
+                    servoController->MovePanServoBy(difference[0]*0.08);
+                    servoController->MoveTiltServoBy(-difference[1]*0.08);
+                    //putText(frame, boost::to_string(difference[0]) + ", " + boost::to_string(difference[1]), Point(50,50), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,200,200), 4);
+                    //putText(frame, boost::to_string(frameCenter.x) + ", " + boost::to_string(frameCenter.y), Point(50,50), FONT_HERSHEY_SIMPLEX, 1, Scalar(0,200,200), 4);
 
                 }
                 counter = 0;
             }
-            cv::Size frameSize = frame.size();
-            cv::Point2f frameCenter(frameSize.width/2, frameSize.height/2);
-            rectangle(frame,Point(frameCenter.x,frameCenter.y), Point(frameCenter.x + 1, frameCenter.y +1),Scalar(255,0,0),1,4);
 
             if (faces.empty())
             {
@@ -86,71 +86,12 @@ int main(int argc, char** argv){
                 max_face_size = 60;
             }
             counter++;
-            imshow("Output", frame);
+            //imshow("Output", frame);
         }
 
         if (waitKey(1) == 27)
         {
-        break;
-        }
-    }
-    return 0;
-}
-
-int GatherFrames(VideoCapture& cap) {
-    std::cout << "Gather Frames Thread Started." << '\n';
-    while(1)
-    {
-        Mat frame;
-        bool bSuccess = cap.read(frame);
-        if (bSuccess)
-        {
-            //mtx.lock();
-            framesIn.push_back(frame);
-            //mtx.unlock();
-        }
-
-        //cout << "Cannot read a frame from camera" << endl;
-        //break;
-    }
-    return 0;
-}
-
-int DetectFaceAndDrawRect() {
-    std::cout << "Process Thread Started." << '\n';
-    CascadeClassifier frontalface = CascadeClassifier("/home/pi/projects/cvtest/classifiers/haarcascade_frontalface_alt2.xml");
-    while(1)
-    {
-        if (!framesIn.empty())
-        {
-                Mat frame = framesIn.front();
-                framesIn.pop_front();
-            //for (std::list<Mat>::iterator it = framesIn.begin() ; it != framesIn.end() ; it++)
-            //{
-                frontalface.detectMultiScale(frame,faces,1.3,3,0|CASCADE_SCALE_IMAGE, Size(30,30));
-                for (unsigned int i = 0 ; i < faces.size(); ++i)
-                {
-                    Rect face = faces[i];
-                    rectangle(frame,Point(face.x, face.y),Point(face.x+face.width, face.y+face.height),Scalar(255,0,0),1,4);
-                }
-
-                framesOut.push_back(frame);
-
-            //}
-        }
-    }
-    return 0;
-}
-
-int DrawFrame() {
-    std::cout << "Draw Frame Thread Started." << '\n';
-    while(1)
-    {
-        if (!framesOut.empty())
-        {
-            Mat frame = framesOut.front();
-            framesOut.pop_front();
-            imshow("Output", frame);
+            break;
         }
     }
     return 0;

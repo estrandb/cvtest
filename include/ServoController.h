@@ -5,13 +5,16 @@ class ServoController
 {
     public:
         ServoController();
-        void MovePanServo(int position);
-        void MoveTiltServo(int position);
-
+        void MovePanServoTo(int position);
+        void MovePanServoBy(int offset);
+        void MoveTiltServoTo(int position);
+        void MoveTiltServoBy(int offset);
 
     protected:
     private:
         int uart0_filestream;
+        int currentPanPosition;
+        int currentTiltPosition;
 };
 
 #endif // SERVOCONTROLLER_H

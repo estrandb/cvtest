@@ -14,6 +14,9 @@
 
 int uart0_filestream = -1;
 
+int currentPanPosition = 100;
+int currentTiltPosition = 100;
+
 unsigned char tx_pan_buffer[20];
 unsigned char *p_tx_pan_buffer;
 
@@ -75,7 +78,9 @@ ServoController::ServoController()
 	*p_tx_tilt_buffer++ = 18;
 }
 
-void ServoController::MovePanServo(int position)
+//**** Written by Eddie Strandberg ****//
+
+void ServoController::MovePanServoTo(int position)
 {
     //position is 0-200. left is negative, right is positive
     //check for physical limits
@@ -99,11 +104,30 @@ void ServoController::MovePanServo(int position)
 		{
 			printf("UART TX error\n");
 		}
+		else
+		{
+            currentPanPosition = position;
+		}
 	}
-
+	return;
 }
 
-void ServoController::MoveTiltServo(int position)
+void ServoController::MovePanServoBy(int offset)
+{
+    int newPanPosition = currentPanPosition + offset;
+    if (newPanPosition < PAN_LIMIT_LEFT)
+    {
+        newPanPosition = PAN_LIMIT_LEFT;
+    }
+    if (newPanPosition > PAN_LIMIT_RIGHT)
+    {
+        newPanPosition = PAN_LIMIT_RIGHT;
+    }
+    MovePanServoTo(newPanPosition);
+    return;
+}
+
+void ServoController::MoveTiltServoTo(int position)
 {
     //up is positive, down is negative
     //check for physical limits
@@ -127,7 +151,28 @@ void ServoController::MoveTiltServo(int position)
 		{
 			printf("UART TX error\n");
 		}
+		else
+		{
+            currentTiltPosition = position;
+		}
 	}
+	return;
 }
+
+void ServoController::MoveTiltServoBy(int offset)
+{
+    int newTiltPosition = currentTiltPosition + offset;
+    if (newTiltPosition < TILT_LIMIT_DOWN)
+    {
+        newTiltPosition = TILT_LIMIT_DOWN;
+    }
+    if (newTiltPosition > TILT_LIMIT_UP)
+    {
+        newTiltPosition = TILT_LIMIT_DOWN;
+    }
+    MoveTiltServoTo(newTiltPosition);
+    return;
+}
+
 
 
