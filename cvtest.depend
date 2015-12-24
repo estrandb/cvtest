@@ -1,18 +1,17 @@
 # depslib dependency file v1.0
-1450632703 source:/home/pi/projects/git/cvtest/src/opencv_test.cpp
+1450753389 source:/home/pi/projects/git/cvtest/src/opencv_test.cpp
 	"opencv2/imgproc/imgproc.hpp"
 	"opencv2/core/core.hpp"
 	"opencv2/highgui/highgui.hpp"
 	"opencv2/objdetect/objdetect.hpp"
 	"opencv2/features2d/features2d.hpp"
 	<iostream>
-	<boost/thread.hpp>
 	<stdio.h>
 	"ServoController.h"
 	<string>
 	<vector>
 
-1450636002 source:/home/pi/projects/git/cvtest/src/ServoController.cpp
+1450636726 source:/home/pi/projects/git/cvtest/src/ServoController.cpp
 	"ServoController.h"
 	<unistd.h>
 	<fcntl.h>
@@ -20,4 +19,347 @@
 	<stdio.h>
 
 1450632067 /home/pi/projects/git/cvtest/include/ServoController.h
+
+1441504517 /usr/include/unistd.h
+	<features.h>
+	<bits/posix_opt.h>
+	<bits/environments.h>
+	<bits/types.h>
+	<stddef.h>
+	<bits/confname.h>
+	<getopt.h>
+	<bits/unistd.h>
+
+1441504383 /usr/include/features.h
+	<stdc-predef.h>
+	<sys/cdefs.h>
+	<gnu/stubs.h>
+
+1441504383 /usr/include/stdc-predef.h
+
+1441504517 /usr/include/getopt.h
+	<ctype.h>
+
+1441504478 /usr/include/ctype.h
+	<features.h>
+	<bits/types.h>
+	<endian.h>
+	<xlocale.h>
+
+1441504506 /usr/include/endian.h
+	<features.h>
+	<bits/endian.h>
+	<bits/byteswap.h>
+
+1441504389 /usr/include/xlocale.h
+
+1441504521 /usr/include/fcntl.h
+	<features.h>
+	<bits/types.h>
+	<bits/fcntl.h>
+	<time.h>
+	<bits/stat.h>
+	<bits/fcntl2.h>
+
+1441504511 /usr/include/time.h
+	<features.h>
+	<stddef.h>
+	<bits/time.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<bits/types.h>
+	<xlocale.h>
+
+1441504522 /usr/include/termios.h
+	<features.h>
+	<bits/types.h>
+	<bits/termios.h>
+	<sys/ttydefaults.h>
+
+1441504500 /usr/include/stdio.h
+	<features.h>
+	<stddef.h>
+	<bits/types.h>
+	<libio.h>
+	<stdarg.h>
+	<bits/stdio_lim.h>
+	<bits/sys_errlist.h>
+	<getopt.h>
+	<bits/stdio.h>
+	<bits/stdio2.h>
+	<bits/stdio-ldbl.h>
+
+1441504500 /usr/include/libio.h
+	<_G_config.h>
+	<stdarg.h>
+	<sys/cdefs.h>
+	<bits/stdio-lock.h>
+	<shlib-compat.h>
+	<bits/libio-ldbl.h>
+
+1441504500 /usr/include/_G_config.h
+	<bits/types.h>
+	<stddef.h>
+	<wchar.h>
+	<gconv.h>
+
+1441504509 /usr/include/wchar.h
+	<features.h>
+	<stdio.h>
+	<stdarg.h>
+	<bits/wchar.h>
+	<stddef.h>
+	<wctype.h>
+	<xlocale.h>
+	<xlocale.h>
+	<xlocale.h>
+	<wctype.h>
+	<bits/wchar2.h>
+	<bits/wchar-ldbl.h>
+
+1441504534 /usr/include/wctype.h
+	<features.h>
+	<bits/types.h>
+	<wchar.h>
+	<endian.h>
+	<xlocale.h>
+
+1441504386 /usr/include/gconv.h
+	<features.h>
+	<wchar.h>
+	<stddef.h>
+
+1411092226 /usr/include/opencv2/imgproc/imgproc.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/imgproc/types_c.h"
+
+1433613403 /usr/include/opencv2/core/core.hpp
+	"opencv2/core/types_c.h"
+	"opencv2/core/version.hpp"
+	<limits.h>
+	<algorithm>
+	<cmath>
+	<cstddef>
+	<complex>
+	<map>
+	<new>
+	<string>
+	<vector>
+	<sstream>
+	"opencv2/core/operations.hpp"
+	"opencv2/core/mat.hpp"
+
+1411092226 /usr/include/opencv2/core/types_c.h
+	<assert.h>
+	<stdlib.h>
+	<string.h>
+	<float.h>
+	<stdint.h>
+	<intrin.h>
+	<emmintrin.h>
+	<fastmath.h>
+	<math.h>
+	<ipl.h>
+	<ipl/ipl.h>
+	"tegra_round.hpp"
+	"emmintrin.h"
+
+1441504478 /usr/include/assert.h
+	<features.h>
+
+1441504493 /usr/include/stdlib.h
+	<features.h>
+	<stddef.h>
+	<bits/waitflags.h>
+	<bits/waitstatus.h>
+	<xlocale.h>
+	<sys/types.h>
+	<alloca.h>
+	<bits/stdlib-bsearch.h>
+	<bits/stdlib-float.h>
+	<bits/stdlib.h>
+	<bits/stdlib-ldbl.h>
+
+1441504494 /usr/include/alloca.h
+	<features.h>
+	<stddef.h>
+
+1441504506 /usr/include/string.h
+	<features.h>
+	<stddef.h>
+	<xlocale.h>
+	<bits/string.h>
+	<bits/string2.h>
+	<bits/string3.h>
+
+1441504494 /usr/include/stdint.h
+	<features.h>
+	<bits/wchar.h>
+	<bits/wordsize.h>
+
+1441504485 /usr/include/math.h
+	<features.h>
+	<bits/huge_val.h>
+	<bits/huge_valf.h>
+	<bits/huge_vall.h>
+	<bits/inf.h>
+	<bits/nan.h>
+	<bits/mathdef.h>
+	<bits/mathcalls.h>
+	<bits/mathcalls.h>
+	<bits/mathcalls.h>
+	<bits/mathinline.h>
+	<bits/math-finite.h>
+
+1411092226 /usr/include/opencv2/core/version.hpp
+
+1441504383 /usr/include/limits.h
+	<features.h>
+	<bits/wordsize.h>
+	<bits/posix1_lim.h>
+	<bits/posix2_lim.h>
+	<bits/xopen_lim.h>
+
+1433613403 /usr/include/opencv2/core/operations.hpp
+	<string.h>
+	<limits.h>
+	<ext/atomicity.h>
+	<bits/atomicity.h>
+	<limits>
+
+1411092226 /usr/include/opencv2/core/mat.hpp
+	<limits.h>
+	<string.h>
+
+1411092226 /usr/include/opencv2/imgproc/types_c.h
+	"opencv2/core/core_c.h"
+
+1411092226 /usr/include/opencv2/core/core_c.h
+	"opencv2/core/types_c.h"
+
+1411092226 /usr/include/opencv2/highgui/highgui.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/highgui/highgui_c.h"
+
+1411092226 /usr/include/opencv2/highgui/highgui_c.h
+	"opencv2/core/core_c.h"
+
+1411092226 /usr/include/opencv2/objdetect/objdetect.hpp
+	"opencv2/core/core.hpp"
+	<map>
+	<deque>
+
+1411092226 /usr/include/opencv2/features2d/features2d.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/flann/miniflann.hpp"
+	<limits>
+
+1411092226 /usr/include/opencv2/flann/miniflann.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/flann/defines.h"
+
+1411092226 /usr/include/opencv2/flann/defines.h
+	"config.h"
+
+1411092226 /usr/include/opencv2/flann/config.h
+
+1450729776 /usr/include/sprec/sprec.h
+	<sprec/wav.h>
+	<sprec/flac_encoder.h>
+	<sprec/web_client.h>
+	<sprec/recognize.h>
+
+1450729776 /usr/include/sprec/wav.h
+	<string.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdio.h>
+	<FLAC/all.h>
+
+1417325441 /usr/include/FLAC/all.h
+	"export.h"
+	"assert.h"
+	"callback.h"
+	"format.h"
+	"metadata.h"
+	"ordinals.h"
+	"stream_decoder.h"
+	"stream_encoder.h"
+
+1417325441 /usr/include/FLAC/export.h
+
+1417325441 /usr/include/FLAC/assert.h
+	<assert.h>
+
+1417325441 /usr/include/FLAC/callback.h
+	"ordinals.h"
+	<stdlib.h>
+
+1417325441 /usr/include/FLAC/ordinals.h
+	<stdint.h>
+
+1417325441 /usr/include/FLAC/format.h
+	"export.h"
+	"ordinals.h"
+
+1417325441 /usr/include/FLAC/metadata.h
+	<sys/types.h>
+	"export.h"
+	"callback.h"
+	"format.h"
+
+1417325441 /usr/include/FLAC/stream_decoder.h
+	<stdio.h>
+	"export.h"
+	"format.h"
+
+1417325441 /usr/include/FLAC/stream_encoder.h
+	<stdio.h>
+	"export.h"
+	"format.h"
+	"stream_decoder.h"
+
+1450729776 /usr/include/sprec/flac_encoder.h
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<string.h>
+
+1450729776 /usr/include/sprec/web_client.h
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	<fcntl.h>
+	<string.h>
+
+1450729776 /usr/include/sprec/recognize.h
+	<pthread.h>
+
+1441504558 /usr/include/pthread.h
+	<features.h>
+	<endian.h>
+	<sched.h>
+	<time.h>
+	<bits/pthreadtypes.h>
+	<bits/setjmp.h>
+	<bits/wordsize.h>
+
+1441504518 /usr/include/sched.h
+	<features.h>
+	<bits/types.h>
+	<stddef.h>
+	<time.h>
+	<bits/sched.h>
+
+1450923635 source:/home/pi/projects/git/cvtest/src/VoiceRecognition.cpp
+	"VoiceRecognition.h"
+	<stdio.h>
+	<stdlib.h>
+
+1392965351 /usr/include/portaudio.h
+
+1450923634 /home/pi/projects/git/cvtest/include/VoiceRecognition.h
+	"portaudio.h"
 

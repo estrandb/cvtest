@@ -6,7 +6,8 @@
 #include "opencv2/objdetect/objdetect.hpp"
 #include "opencv2/features2d/features2d.hpp"
 #include <iostream>
-#include <boost/thread.hpp>
+//#include <boost/thread.hpp>
+
 #include <stdio.h>
 
 #include "ServoController.h"
@@ -22,7 +23,7 @@ using namespace cv;
 int difference[2];
 
 std::vector<Rect> faces;
-//std::vector<Rect_<int> > faces;
+
 double min_face_size=30;
 double max_face_size=70;
 
