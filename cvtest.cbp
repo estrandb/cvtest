@@ -48,11 +48,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="../../../../../usr/local/include/pa_ringbuffer.h" />
+		<Unit filename="../../../../../usr/local/include/pa_util.h" />
+		<Unit filename="../../../../../usr/local/include/portaudio.h" />
+		<Unit filename="../../../builds/portaudio-snp/src/common/pa_ringbuffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="classifiers/haarcascade_frontalface_alt2.xml" />
 		<Unit filename="classifiers/haarcascade_profileface.xml" />
 		<Unit filename="include/ServoController.h" />
+		<Unit filename="include/TextToSpeechController.h" />
 		<Unit filename="include/VoiceRecognition.h" />
 		<Unit filename="src/ServoController.cpp" />
+		<Unit filename="src/TextToSpeechController.cpp" />
 		<Unit filename="src/VoiceRecognition.cpp" />
 		<Unit filename="src/opencv_test.cpp" />
 		<Extensions>

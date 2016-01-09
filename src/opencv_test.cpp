@@ -6,11 +6,13 @@
 #include "opencv2/objdetect/objdetect.hpp"
 #include "opencv2/features2d/features2d.hpp"
 #include <iostream>
-//#include <boost/thread.hpp>
+#include <boost/thread.hpp>
 
 #include <stdio.h>
 
 #include "ServoController.h"
+#include "VoiceRecognition.h"
+#include "TextToSpeechController.h"
 
 #include <string>
 #include <vector>
@@ -42,14 +44,20 @@ int main(int argc, char** argv){
     cap.set(CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
     cap.set(CV_CAP_PROP_FPS, 30);
     cv::Point2f frameCenter(FRAME_WIDTH/2, FRAME_HEIGHT/2);
-    CascadeClassifier frontalface = CascadeClassifier("/home/pi/projects/cvtest/classifiers/haarcascade_frontalface_alt2.xml");
-    //CascadeClassifier profileface = CascadeClassifier("/home/pi/projects/cvtest/classifiers/haarcascade_profileface.xml");
+    CascadeClassifier frontalface = CascadeClassifier("/home/pi/projects/git/cvtest/classifiers/haarcascade_frontalface_alt2.xml");
+    //CascadeClassifier profileface = CascadeClassifier("/home/pi/projects/git/cvtest/classifiers/haarcascade_profileface.xml");
 
     //namedWindow("Output",CV_WINDOW_AUTOSIZE);
 
     ServoController* servoController = new ServoController();
     servoController->MovePanServoTo(100);
     servoController->MoveTiltServoTo(120);
+
+    //TextToSpeechController* textToSpeechController = new TextToSpeechController();
+
+    VoiceRecognition* voiceRecognition = new VoiceRecognition();
+
+    boost::thread voiceThread(&VoiceRecognition::Record, voiceRecognition);
 
     while(1)
     {
