@@ -3,57 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "pa_util.h"
-#include "pa_ringbuffer.h"
-
-#include "portaudio.h"
-
 #include <algorithm>
 
-/* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
-#define FILE_NAME       "audio_data.raw"
-#define SAMPLE_RATE  (44100)
-#define FRAMES_PER_BUFFER (512)
-#define NUM_SECONDS     (10)
-#define NUM_CHANNELS    (2)
-#define NUM_WRITES_PER_BUFFER   (4)
-/* #define DITHER_FLAG     (paDitherOff) */
-#define DITHER_FLAG     (0) /**/
-
-
-/* Select sample format. */
-#if 0
-#define PA_SAMPLE_TYPE  paFloat32
-typedef float SAMPLE;
-#define SAMPLE_SILENCE  (0.0f)
-#define PRINTF_S_FORMAT "%.8f"
-#elif 1
-#define PA_SAMPLE_TYPE  paInt16
-typedef short SAMPLE;
-#define SAMPLE_SILENCE  (0)
-#define PRINTF_S_FORMAT "%d"
-#elif 0
-#define PA_SAMPLE_TYPE  paInt8
-typedef char SAMPLE;
-#define SAMPLE_SILENCE  (0)
-#define PRINTF_S_FORMAT "%d"
-#else
-#define PA_SAMPLE_TYPE  paUInt8
-typedef unsigned char SAMPLE;
-#define SAMPLE_SILENCE  (128)
-#define PRINTF_S_FORMAT "%d"
-#endif
-
-typedef struct
-{
-    unsigned            frameIndex;
-    int                 threadSyncFlag;
-    SAMPLE             *ringBufferData;
-    PaUtilRingBuffer    ringBuffer;
-    FILE               *file;
-    void               *threadHandle;
-}
-paTestData;
+boost::thread writeThread;
 
 VoiceRecognition::VoiceRecognition(){}
 
@@ -147,11 +99,9 @@ int VoiceRecognition::threadFunctionReadFromRawFile(void* ptr)
     return 0;
 }
 
-typedef int (*ThreadFunctionType)(void*);
-
 /* Start up a new thread in the given function, at the moment only Windows, but should be very easy to extend
    to posix type OSs (Linux/Mac) */
-static PaError startThread( paTestData* pData, ThreadFunctionType fn )
+PaError VoiceRecognition::startThread(paTestData* pData)
 {
 #ifdef _WIN32
     typedef unsigned (__stdcall* WinThreadFunctionType)(void*);
@@ -167,6 +117,8 @@ static PaError startThread( paTestData* pData, ThreadFunctionType fn )
 
 #endif
 
+    writeThread = boost::thread(&VoiceRecognition::threadFunctionWriteToRawFile, pData);
+
     /* Wait for thread to startup */
     while (pData->threadSyncFlag) {
         Pa_Sleep(10);
@@ -175,17 +127,20 @@ static PaError startThread( paTestData* pData, ThreadFunctionType fn )
     return paNoError;
 }
 
-static int stopThread( paTestData* pData )
+int VoiceRecognition::stopThread(paTestData* pData)
 {
     pData->threadSyncFlag = 1;
     /* Wait for thread to stop */
     while (pData->threadSyncFlag) {
         Pa_Sleep(10);
     }
+
 #ifdef _WIN32
     CloseHandle(pData->threadHandle);
     pData->threadHandle = 0;
 #endif
+
+    writeThread.join();
 
     return paNoError;
 }
@@ -198,7 +153,7 @@ int VoiceRecognition::recordTest( const void *inputBuffer, void *outputBuffer,
                            void *userData )
 {
 
-
+return 0;
 }
 
 /* This routine will be called by the PortAudio engine when audio is needed.
@@ -226,30 +181,6 @@ int VoiceRecognition::recordCallback( const void *inputBuffer, void *outputBuffe
     return paContinue;
 }
 
-/* This routine will be called by the PortAudio engine when audio is needed.
-** It may be called at interrupt level on some machines so don't do anything
-** that could mess up the system like calling malloc() or free().
-*/
-int VoiceRecognition::playCallback( const void *inputBuffer, void *outputBuffer,
-                         unsigned long framesPerBuffer,
-                         const PaStreamCallbackTimeInfo* timeInfo,
-                         PaStreamCallbackFlags statusFlags,
-                         void *userData )
-{
-    paTestData *data = (paTestData*)userData;
-    ring_buffer_size_t elementsToPlay = PaUtil_GetRingBufferReadAvailable(&data->ringBuffer);
-    ring_buffer_size_t elementsToRead = std::min(elementsToPlay, (ring_buffer_size_t)(framesPerBuffer * NUM_CHANNELS));
-    SAMPLE* wptr = (SAMPLE*)outputBuffer;
-
-    (void) inputBuffer; /* Prevent unused variable warnings. */
-    (void) timeInfo;
-    (void) statusFlags;
-    (void) userData;
-
-    data->frameIndex += PaUtil_ReadRingBuffer(&data->ringBuffer, wptr, elementsToRead);
-
-    return data->threadSyncFlag ? paComplete : paContinue;
-}
 
 static unsigned NextPowerOf2(unsigned val)
 {
@@ -322,7 +253,7 @@ int VoiceRecognition::Record(void)
     if (data.file == 0) goto done;
 
     /* Start the file writing thread */
-    err = startThread(&data, threadFunctionWriteToRawFile);
+    err = startThread(&data);
     if( err != paNoError ) goto done;
 
     err = Pa_StartStream( stream );
@@ -350,61 +281,6 @@ int VoiceRecognition::Record(void)
     fclose(data.file);
     data.file = 0;
 
-    /* Playback recorded data.  -------------------------------------------- */
-    data.frameIndex = 0;
-
-    outputParameters.device = Pa_GetDefaultOutputDevice(); /* default output device */
-    if (outputParameters.device == paNoDevice) {
-        fprintf(stderr,"Error: No default output device.\n");
-        goto done;
-    }
-    outputParameters.channelCount = 2;                     /* stereo output */
-    outputParameters.sampleFormat =  PA_SAMPLE_TYPE;
-    outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
-    outputParameters.hostApiSpecificStreamInfo = NULL;
-
-    printf("\n=== Now playing back from file '" FILE_NAME "' until end-of-file is reached ===\n"); fflush(stdout);
-    err = Pa_OpenStream(
-              &stream,
-              NULL, /* no input */
-              &outputParameters,
-              SAMPLE_RATE,
-              FRAMES_PER_BUFFER,
-              paClipOff,      /* we won't output out of range samples so don't bother clipping them */
-              playCallback,
-              &data );
-    if( err != paNoError ) goto done;
-
-    if( stream )
-    {
-        /* Open file again for reading */
-        data.file = fopen(FILE_NAME, "rb");
-        if (data.file != 0)
-        {
-            /* Start the file reading thread */
-            err = startThread(&data, threadFunctionReadFromRawFile);
-            if( err != paNoError ) goto done;
-
-            err = Pa_StartStream( stream );
-            if( err != paNoError ) goto done;
-
-            printf("Waiting for playback to finish.\n"); fflush(stdout);
-
-            /* The playback will end when EOF is reached */
-            while( ( err = Pa_IsStreamActive( stream ) ) == 1 ) {
-                printf("index = %d\n", data.frameIndex ); fflush(stdout);
-                Pa_Sleep(1000);
-            }
-            if( err < 0 ) goto done;
-        }
-
-        err = Pa_CloseStream( stream );
-        if( err != paNoError ) goto done;
-
-        fclose(data.file);
-
-        printf("Done.\n"); fflush(stdout);
-    }
 
 done:
     Pa_Terminate();

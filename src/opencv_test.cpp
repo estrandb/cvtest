@@ -19,6 +19,8 @@
 
 using namespace cv;
 
+#define TURN_ON_FACE_TRACK 0
+
 #define FRAME_WIDTH 320
 #define FRAME_HEIGHT 240
 
@@ -33,6 +35,7 @@ int counter = 0;
 
 int main(int argc, char** argv){
 
+    #if TURN_ON_FACE_TRACK
     VideoCapture cap(-1);
     if (!cap.isOpened())
     {
@@ -54,11 +57,13 @@ int main(int argc, char** argv){
     servoController->MoveTiltServoTo(120);
 
     //TextToSpeechController* textToSpeechController = new TextToSpeechController();
+    #endif
 
     VoiceRecognition* voiceRecognition = new VoiceRecognition();
 
     boost::thread voiceThread(&VoiceRecognition::Record, voiceRecognition);
 
+    #if TURN_ON_FACE_TRACK
     while(1)
     {
 
@@ -103,5 +108,9 @@ int main(int argc, char** argv){
             break;
         }
     }
+    #endif
+    #if !TURN_ON_FACE_TRACK
+    sleep(15);
+    #endif
     return 0;
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1451925837 source:/home/pi/projects/git/cvtest/src/opencv_test.cpp
+1452394790 source:/home/pi/projects/git/cvtest/src/opencv_test.cpp
 	"opencv2/imgproc/imgproc.hpp"
 	"opencv2/core/core.hpp"
 	"opencv2/highgui/highgui.hpp"
@@ -356,7 +356,7 @@
 	<time.h>
 	<bits/sched.h>
 
-1451934810 source:/home/pi/projects/git/cvtest/src/VoiceRecognition.cpp
+1452360032 source:/home/pi/projects/git/cvtest/src/VoiceRecognition.cpp
 	"VoiceRecognition.h"
 	<stdio.h>
 	<stdlib.h>
@@ -367,8 +367,11 @@
 
 1392965351 /usr/include/portaudio.h
 
-1452359471 /home/pi/projects/git/cvtest/include/VoiceRecognition.h
+1452439205 /home/pi/projects/git/cvtest/include/VoiceRecognition.h
+	<boost/thread.hpp>
 	"portaudio.h"
+	"pa_util.h"
+	"pa_ringbuffer.h"
 
 1411548228 /usr/include/boost/thread.hpp
 	<boost/thread/thread.hpp>
