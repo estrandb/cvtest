@@ -74,6 +74,7 @@ class VoiceRecognition
         paTestData;
         static PaError startThread(paTestData* pData);
         static int stopThread(paTestData* pData);
+        static SAMPLE GetMaxAmplitude(paTestData data, unsigned numSamples);
 
 };
 

@@ -1,5 +1,9 @@
 #include "VoiceRecognition.h"
 
+#include <sphinxbase/err.h>
+#include <sphinxbase/ad.h>
+#include "pocketsphinx.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -181,6 +185,24 @@ int VoiceRecognition::recordCallback( const void *inputBuffer, void *outputBuffe
     return paContinue;
 }
 
+VoiceRecognition::SAMPLE VoiceRecognition::GetMaxAmplitude(paTestData data, unsigned numSamples)
+{
+    SAMPLE              maximum, val;
+    double              average;
+    /* Measure maximum peak amplitude. */
+    maximum = 0;
+    average = 0.0;
+    for( int i=0; i<numSamples; i++ )
+    {
+        val = data.ringBufferData[i];
+        if( val < 0 ) val = -val; /* ABS */
+        if( val > maximum )
+        {
+            maximum = val;
+        }
+    }
+    return maximum;
+}
 
 static unsigned NextPowerOf2(unsigned val)
 {
@@ -204,8 +226,6 @@ int VoiceRecognition::Record(void)
     unsigned            delayCntr;
     unsigned            numSamples;
     unsigned            numBytes;
-
-    printf("patest_record.c\n"); fflush(stdout);
 
     /* We set the ring buffer size to about 500 ms */
     numSamples = NextPowerOf2((unsigned)(SAMPLE_RATE * 0.5 * NUM_CHANNELS));

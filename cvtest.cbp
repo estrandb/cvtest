@@ -16,6 +16,8 @@
 					<Add directory="/home/pi/projects/git/cvtest/include" />
 					<Add directory="/usr/include" />
 					<Add directory="/usr/local/include" />
+					<Add directory="/usr/local/include/pocketsphinx" />
+					<Add directory="/usr/local/include/sphinxbase" />
 				</Compiler>
 				<Linker>
 					<Add library="/home/pi/builds/opencv/release/lib/libopencv_imgproc.so" />
@@ -28,6 +30,9 @@
 					<Add library="/usr/lib/arm-linux-gnueabihf/libboost_system.so" />
 					<Add library="/usr/lib/arm-linux-gnueabihf/libboost_thread.so" />
 					<Add library="/usr/local/lib/libportaudio.so" />
+					<Add library="/usr/local/lib/libsphinxbase.so" />
+					<Add library="/usr/local/lib/libsphinxad.so" />
+					<Add library="/usr/local/lib/libpocketsphinx.so" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -38,6 +43,8 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="/home/pi/projects/git/cvtest/include" />
+					<Add directory="/include" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -56,9 +63,11 @@
 		</Unit>
 		<Unit filename="classifiers/haarcascade_frontalface_alt2.xml" />
 		<Unit filename="classifiers/haarcascade_profileface.xml" />
+		<Unit filename="include/PsVoiceRec.h" />
 		<Unit filename="include/ServoController.h" />
 		<Unit filename="include/TextToSpeechController.h" />
 		<Unit filename="include/VoiceRecognition.h" />
+		<Unit filename="src/PsVoiceRec.cpp" />
 		<Unit filename="src/ServoController.cpp" />
 		<Unit filename="src/TextToSpeechController.cpp" />
 		<Unit filename="src/VoiceRecognition.cpp" />

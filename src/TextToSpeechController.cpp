@@ -4,7 +4,7 @@
 #include <fcntl.h>			//Used for UART
 #include <termios.h>		//Used for UART
 
-#include <string>
+#include <string.h>
 #include <stdio.h>
 
 int uart1_filestream = -1;
@@ -57,26 +57,32 @@ TextToSpeechController::TextToSpeechController()
 	options.c_lflag = 0;
 	tcflush(uart1_filestream, TCIFLUSH);
 	tcsetattr(uart1_filestream, TCSANOW, &options);
+}
 
-    char words[] = "hey there my name is joe";
+void TextToSpeechController::RespondToKeyword(const char* words)
+{
+    char response[50];
+
+    if (strcmp("robot", words) == 0)
+    {
+        strcpy(response,"Yes? How can i be of assistance?");
+    }
 
     p_tx_buffer = &tx_buffer[0];
 	*p_tx_buffer++ = 'N';
-	*p_tx_buffer++ = '7';
+	*p_tx_buffer++ = '0';
 	*p_tx_buffer++ = '\n';
 
 	*p_tx_buffer++ = 'V';
 	*p_tx_buffer++ = '18';
 	*p_tx_buffer++ = '\n';
-
-	*p_tx_buffer++ = 'S';
-	for (int i = 0; i<=sizeof(words)/sizeof(words[0]); i++)
+    *p_tx_buffer++ = 'S';
+	for (int i = 0; i<=sizeof(response)/sizeof(response[0]); i++)
 	{
-        *p_tx_buffer++ = words[i];
+        *p_tx_buffer++ = response[i];
 	}
 	*p_tx_buffer++ = '\n';
-	//*p_tx_buffer++ = 'Hello there my name is joe what is yours';
-	//*p_tx_buffer++ = '\n';
+
 
 	if (uart1_filestream != -1)
 	{
@@ -86,5 +92,7 @@ TextToSpeechController::TextToSpeechController()
 			printf("UART TX error\n");
 		}
 	}
-
+	//sleep(4);
+	tcflush(uart1_filestream, TCIFLUSH);
+	return;
 }

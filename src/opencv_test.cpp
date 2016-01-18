@@ -5,21 +5,21 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/objdetect/objdetect.hpp"
 #include "opencv2/features2d/features2d.hpp"
+
 #include <iostream>
 #include <boost/thread.hpp>
 
 #include <stdio.h>
 
 #include "ServoController.h"
-#include "VoiceRecognition.h"
-#include "TextToSpeechController.h"
+#include "PsVoiceRec.h"
 
-#include <string>
+#include <string.h>
 #include <vector>
 
 using namespace cv;
 
-#define TURN_ON_FACE_TRACK 0
+#define TURN_ON_FACE_TRACK 1
 
 #define FRAME_WIDTH 320
 #define FRAME_HEIGHT 240
@@ -56,12 +56,11 @@ int main(int argc, char** argv){
     servoController->MovePanServoTo(100);
     servoController->MoveTiltServoTo(120);
 
-    //TextToSpeechController* textToSpeechController = new TextToSpeechController();
     #endif
 
-    VoiceRecognition* voiceRecognition = new VoiceRecognition();
+    PsVoiceRec* voiceRecognition = new PsVoiceRec();
 
-    boost::thread voiceThread(&VoiceRecognition::Record, voiceRecognition);
+    boost::thread voiceThread(&PsVoiceRec::ListenForKeyword, voiceRecognition);
 
     #if TURN_ON_FACE_TRACK
     while(1)

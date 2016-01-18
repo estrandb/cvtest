@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1452394790 source:/home/pi/projects/git/cvtest/src/opencv_test.cpp
+1453066612 source:/home/pi/projects/git/cvtest/src/opencv_test.cpp
 	"opencv2/imgproc/imgproc.hpp"
 	"opencv2/core/core.hpp"
 	"opencv2/highgui/highgui.hpp"
@@ -9,9 +9,9 @@
 	<boost/thread.hpp>
 	<stdio.h>
 	"ServoController.h"
-	"VoiceRecognition.h"
+	"PsVoiceRec.h"
 	"TextToSpeechController.h"
-	<string>
+	<string.h>
 	<vector>
 
 1450636726 source:/home/pi/projects/git/cvtest/src/ServoController.cpp
@@ -356,18 +356,18 @@
 	<time.h>
 	<bits/sched.h>
 
-1452360032 source:/home/pi/projects/git/cvtest/src/VoiceRecognition.cpp
+1453064734 source:/home/pi/projects/git/cvtest/src/VoiceRecognition.cpp
 	"VoiceRecognition.h"
+	<sphinxbase/err.h>
+	<sphinxbase/ad.h>
+	"pocketsphinx.h"
 	<stdio.h>
 	<stdlib.h>
-	"pa_util.h"
-	"pa_ringbuffer.h"
-	"portaudio.h"
 	<algorithm>
 
 1392965351 /usr/include/portaudio.h
 
-1452439205 /home/pi/projects/git/cvtest/include/VoiceRecognition.h
+1453064710 /home/pi/projects/git/cvtest/include/VoiceRecognition.h
 	<boost/thread.hpp>
 	"portaudio.h"
 	"pa_util.h"
@@ -6361,15 +6361,15 @@
 
 1411548232 /usr/include/boost/detail/atomic_redef_macros.hpp
 
-1451178585 source:/home/pi/projects/git/cvtest/src/TextToSpeechController.cpp
+1453062499 source:/home/pi/projects/git/cvtest/src/TextToSpeechController.cpp
 	"TextToSpeechController.h"
 	<unistd.h>
 	<fcntl.h>
 	<termios.h>
-	<string>
+	<string.h>
 	<stdio.h>
 
-1451174015 /home/pi/projects/git/cvtest/include/TextToSpeechController.h
+1453016286 /home/pi/projects/git/cvtest/include/TextToSpeechController.h
 
 1451188868 /usr/include/pa_ringbuffer.h
 	<sys/types.h>
@@ -6411,4 +6411,153 @@
 1313666980 /home/pi/builds/portaudio-snp/src/common/pa_memorybarrier.h
 	<libkern/OSAtomic.h>
 	<intrin.h>
+
+1450917124 /usr/local/include/sphinxbase/err.h
+	<stdarg.h>
+	<stdio.h>
+	<stdlib.h>
+	<errno.h>
+	<sphinxbase/sphinxbase_export.h>
+
+1450917124 /usr/local/include/sphinxbase/sphinxbase_export.h
+
+1450917124 /usr/local/include/sphinxbase/ad.h
+	<sphinx_config.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+
+1450917124 /usr/local/include/sphinxbase/sphinx_config.h
+
+1450917124 /usr/local/include/sphinxbase/prim_type.h
+	<sphinx_config.h>
+
+1450917419 /usr/local/include/pocketsphinx/pocketsphinx.h
+	<stdio.h>
+	<sphinxbase/cmd_ln.h>
+	<sphinxbase/logmath.h>
+	<sphinxbase/fe.h>
+	<sphinxbase/feat.h>
+	<pocketsphinx_export.h>
+	<cmdln_macro.h>
+	<ps_lattice.h>
+	<ps_mllr.h>
+	<ps_search.h>
+
+1450917124 /usr/local/include/sphinxbase/cmd_ln.h
+	<stdio.h>
+	<stdarg.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+
+1450917124 /usr/local/include/sphinxbase/logmath.h
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/cmd_ln.h>
+
+1450917124 /usr/local/include/sphinxbase/fe.h
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/cmd_ln.h>
+	<sphinxbase/fixpoint.h>
+
+1450917124 /usr/local/include/sphinxbase/fixpoint.h
+	<limits.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+
+1450917124 /usr/local/include/sphinxbase/feat.h
+	<stdio.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/fe.h>
+	<sphinxbase/cmn.h>
+	<sphinxbase/agc.h>
+
+1450917124 /usr/local/include/sphinxbase/cmn.h
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/fe.h>
+
+1450917124 /usr/local/include/sphinxbase/agc.h
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/fe.h>
+
+1450917419 /usr/local/include/pocketsphinx/pocketsphinx_export.h
+
+1450917419 /usr/local/include/pocketsphinx/cmdln_macro.h
+	<sphinxbase/cmd_ln.h>
+	<sphinxbase/feat.h>
+	<sphinxbase/fe.h>
+
+1450917419 /usr/local/include/pocketsphinx/ps_lattice.h
+	<sphinxbase/prim_type.h>
+	<sphinxbase/ngram_model.h>
+	<pocketsphinx_export.h>
+
+1450917124 /usr/local/include/sphinxbase/ngram_model.h
+	<stdarg.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/cmd_ln.h>
+	<sphinxbase/logmath.h>
+	<sphinxbase/mmio.h>
+
+1450917124 /usr/local/include/sphinxbase/mmio.h
+	<sphinxbase/sphinxbase_export.h>
+
+1450917419 /usr/local/include/pocketsphinx/ps_mllr.h
+	<sphinxbase/prim_type.h>
+	<sphinxbase/ngram_model.h>
+	<pocketsphinx_export.h>
+
+1450917419 /usr/local/include/pocketsphinx/ps_search.h
+	<sphinxbase/fsg_model.h>
+	<sphinxbase/ngram_model.h>
+
+1450917124 /usr/local/include/sphinxbase/fsg_model.h
+	<stdio.h>
+	<string.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/glist.h>
+	<sphinxbase/logmath.h>
+	<sphinxbase/bitvec.h>
+	<sphinxbase/hash_table.h>
+	<sphinxbase/listelem_alloc.h>
+	<sphinxbase/sphinxbase_export.h>
+
+1450917124 /usr/local/include/sphinxbase/glist.h
+	<stdlib.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+
+1450917124 /usr/local/include/sphinxbase/bitvec.h
+	<string.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/ckd_alloc.h>
+
+1450917124 /usr/local/include/sphinxbase/ckd_alloc.h
+	<stdlib.h>
+	<setjmp.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+
+1441504490 /usr/include/setjmp.h
+	<features.h>
+	<bits/setjmp.h>
+	<bits/sigset.h>
+	<bits/setjmp2.h>
+
+1450917124 /usr/local/include/sphinxbase/hash_table.h
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+	<sphinxbase/glist.h>
+
+1450917124 /usr/local/include/sphinxbase/listelem_alloc.h
+	<stdlib.h>
+	<types.h>
+	<sphinxbase/sphinxbase_export.h>
+	<sphinxbase/prim_type.h>
+
+1453066468 /home/pi/projects/git/cvtest/include/PsVoiceRec.h
 
